@@ -1,5 +1,6 @@
-import { Link, NavLink } from 'react-router-dom';
-import { Menu, MessageCircle, PhoneCall, MapPin, Mail, Instagram, Facebook, Music2 } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { Link, NavLink, useLocation } from 'react-router-dom';
+import { Menu, X, ChevronDown, MessageCircle, PhoneCall, MapPin, Mail, Instagram, Facebook, Music2 } from 'lucide-react';
 import { company, navigation, ctaLink } from '../data/company';
 
 const quickLinks = [
@@ -13,7 +14,7 @@ const quickLinks = [
   { label: 'Contact', to: '/contact' },
 ];
 
-const services = [
+const footerServices = [
   'Flight Ticketing',
   'Tour Packages',
   'Trekking',
@@ -24,6 +25,27 @@ const services = [
   'International Tours',
 ];
 
+const servicesMenu = [
+  { label: 'Flight Ticketing', to: '/flight-ticketing' },
+  { label: 'Tour Packages', to: '/tours' },
+  { label: 'Trekking', to: '/trekking' },
+  { label: 'Nepal Sightseeing', to: '/services' },
+  { label: 'Hotel Booking', to: '/services' },
+  { label: 'Transportation', to: '/services' },
+  { label: 'Customized Travel', to: '/services' },
+  { label: 'International Tours', to: '/tours' },
+  { label: 'Bike Tours', to: '/tours' },
+  { label: 'Mountain Flights', to: '/tours' },
+];
+
+const toursMenu = [
+  { label: 'Nepal Tours', to: '/tours' },
+  { label: 'Trekking Packages', to: '/tours' },
+  { label: 'International Tours', to: '/tours' },
+  { label: 'Bike Tours', to: '/tours' },
+  { label: 'Customized Packages', to: '/tours' },
+];
+
 const socialIcons = {
   instagram: Instagram,
   facebook: Facebook,
@@ -31,6 +53,19 @@ const socialIcons = {
 };
 
 export default function Layout({ children }) {
+  const location = useLocation();
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [openSection, setOpenSection] = useState('');
+
+  useEffect(() => {
+    setMobileOpen(false);
+    setOpenSection('');
+  }, [location.pathname]);
+
+  const toggleSection = (section) => {
+    setOpenSection((current) => (current === section ? '' : section));
+  };
+
   return (
     <div className="min-h-screen bg-brand-light text-brand-dark">
       <header className="sticky top-0 z-50 border-b border-slate-200/80 bg-white/90 backdrop-blur-md">
@@ -46,19 +81,39 @@ export default function Layout({ children }) {
           </Link>
 
           <nav className="hidden items-center gap-6 lg:flex">
-            {navigation.map((item) => (
-              <NavLink
-                key={item.to}
-                to={item.to}
-                className={({ isActive }) =>
-                  `text-sm font-medium transition-colors ${
-                    isActive ? 'text-brand-blue' : 'text-slate-700 hover:text-brand-blue'
-                  }`
-                }
-              >
-                {item.label}
-              </NavLink>
-            ))}
+            <NavLink to="/" className={({ isActive }) => `text-sm font-medium transition-colors ${isActive ? 'text-brand-blue' : 'text-slate-700 hover:text-brand-blue'}`}>Home</NavLink>
+            <NavLink to="/about" className={({ isActive }) => `text-sm font-medium transition-colors ${isActive ? 'text-brand-blue' : 'text-slate-700 hover:text-brand-blue'}`}>About Us</NavLink>
+
+            <div className="group relative">
+              <button type="button" className="inline-flex items-center gap-1 text-sm font-medium text-slate-700 transition-colors hover:text-brand-blue">
+                Our Services <ChevronDown size={15} />
+              </button>
+              <div className="invisible absolute left-0 top-full z-30 w-64 rounded-2xl border border-slate-200 bg-white p-2 opacity-0 shadow-soft transition group-hover:visible group-hover:opacity-100">
+                {servicesMenu.map((item) => (
+                  <Link key={item.label} to={item.to} className="block rounded-xl px-3 py-2 text-sm text-slate-700 transition hover:bg-slate-50 hover:text-brand-blue">
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            <div className="group relative">
+              <button type="button" className="inline-flex items-center gap-1 text-sm font-medium text-slate-700 transition-colors hover:text-brand-blue">
+                Tours & Packages <ChevronDown size={15} />
+              </button>
+              <div className="invisible absolute left-0 top-full z-30 w-60 rounded-2xl border border-slate-200 bg-white p-2 opacity-0 shadow-soft transition group-hover:visible group-hover:opacity-100">
+                {toursMenu.map((item) => (
+                  <Link key={item.label} to={item.to} className="block rounded-xl px-3 py-2 text-sm text-slate-700 transition hover:bg-slate-50 hover:text-brand-blue">
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            <NavLink to="/flight-ticketing" className={({ isActive }) => `text-sm font-medium transition-colors ${isActive ? 'text-brand-blue' : 'text-slate-700 hover:text-brand-blue'}`}>Flight Ticketing</NavLink>
+            <NavLink to="/trekking" className={({ isActive }) => `text-sm font-medium transition-colors ${isActive ? 'text-brand-blue' : 'text-slate-700 hover:text-brand-blue'}`}>Trekking</NavLink>
+            <NavLink to="/why-choose-us" className={({ isActive }) => `text-sm font-medium transition-colors ${isActive ? 'text-brand-blue' : 'text-slate-700 hover:text-brand-blue'}`}>Why Choose Us</NavLink>
+            <NavLink to="/contact" className={({ isActive }) => `text-sm font-medium transition-colors ${isActive ? 'text-brand-blue' : 'text-slate-700 hover:text-brand-blue'}`}>Contact Us</NavLink>
           </nav>
 
           <div className="hidden items-center gap-3 lg:flex">
@@ -74,12 +129,66 @@ export default function Layout({ children }) {
 
           <button
             type="button"
+            onClick={() => setMobileOpen((open) => !open)}
             className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 lg:hidden"
-            aria-label="Open menu"
+            aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={mobileOpen}
           >
-            <Menu size={20} />
+            {mobileOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
+
+        {mobileOpen ? (
+          <div className="border-t border-slate-200 bg-white lg:hidden">
+            <div className="container-shell py-4">
+              <div className="space-y-1">
+                <NavLink to="/" className="block rounded-xl px-3 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50">Home</NavLink>
+                <NavLink to="/about" className="block rounded-xl px-3 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50">About Us</NavLink>
+
+                <button type="button" onClick={() => toggleSection('services')} className="flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-left text-sm font-medium text-slate-700 hover:bg-slate-50">
+                  Our Services <ChevronDown size={16} className={openSection === 'services' ? 'rotate-180 transition' : 'transition'} />
+                </button>
+                {openSection === 'services' ? (
+                  <div className="ml-3 space-y-1 border-l border-slate-200 pl-3">
+                    {servicesMenu.map((item) => (
+                      <Link key={item.label} to={item.to} className="block rounded-lg px-3 py-2 text-sm text-slate-600 hover:bg-slate-50 hover:text-brand-blue">
+                        {item.label}
+                      </Link>
+                    ))}
+                  </div>
+                ) : null}
+
+                <button type="button" onClick={() => toggleSection('tours')} className="flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-left text-sm font-medium text-slate-700 hover:bg-slate-50">
+                  Tours & Packages <ChevronDown size={16} className={openSection === 'tours' ? 'rotate-180 transition' : 'transition'} />
+                </button>
+                {openSection === 'tours' ? (
+                  <div className="ml-3 space-y-1 border-l border-slate-200 pl-3">
+                    {toursMenu.map((item) => (
+                      <Link key={item.label} to={item.to} className="block rounded-lg px-3 py-2 text-sm text-slate-600 hover:bg-slate-50 hover:text-brand-blue">
+                        {item.label}
+                      </Link>
+                    ))}
+                  </div>
+                ) : null}
+
+                {navigation.slice(4).map((item) => (
+                  <NavLink key={item.to} to={item.to} className="block rounded-xl px-3 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50">
+                    {item.label}
+                  </NavLink>
+                ))}
+              </div>
+
+              <a
+                href={ctaLink}
+                target="_blank"
+                rel="noreferrer"
+                className="mt-4 inline-flex w-full items-center justify-center rounded-full bg-brand-orange px-5 py-3 text-sm font-semibold text-white"
+              >
+                Get a Quote
+              </a>
+            </div>
+          </div>
+        ) : null}
       </header>
 
       <main>{children}</main>
@@ -107,7 +216,7 @@ export default function Layout({ children }) {
           <div>
             <h3 className="mb-4 text-lg font-semibold text-white">Services</h3>
             <ul className="space-y-2 text-sm text-slate-300">
-              {services.map((service) => (
+              {footerServices.map((service) => (
                 <li key={service}>{service}</li>
               ))}
             </ul>
