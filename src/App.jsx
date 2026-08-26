@@ -1,19 +1,31 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Layout from './components/Layout';
+import HomePage from './pages/HomePage';
+import AboutPage from './pages/AboutPage';
+import ServicesPage from './pages/ServicesPage';
+import ToursPage from './pages/ToursPage';
+import FlightTicketingPage from './pages/FlightTicketingPage';
+import TrekkingPage from './pages/TrekkingPage';
+import WhyChooseUsPage from './pages/WhyChooseUsPage';
+import ContactPage from './pages/ContactPage';
+import NotFoundPage from './pages/NotFoundPage';
+
 export default function App() {
   return (
-    <main className="min-h-screen bg-brand-light text-brand-dark">
-      <div className="mx-auto flex min-h-screen max-w-6xl items-center justify-center px-6">
-        <div className="rounded-2xl border border-slate-200 bg-white p-10 text-center shadow-soft">
-          <p className="text-sm font-semibold uppercase tracking-[0.24em] text-brand-orange">
-            Project foundation
-          </p>
-          <h1 className="mt-4 text-3xl font-bold sm:text-5xl">
-            Twin Trails Travel & Tours
-          </h1>
-          <p className="mt-4 max-w-xl text-lg text-brand-muted">
-            Website structure and tooling setup is in place. Feature implementation will begin after the project plan is approved.
-          </p>
-        </div>
-      </div>
-    </main>
+    <BrowserRouter>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/services" element={<ServicesPage />} />
+          <Route path="/tours" element={<ToursPage />} />
+          <Route path="/flight-ticketing" element={<FlightTicketingPage />} />
+          <Route path="/trekking" element={<TrekkingPage />} />
+          <Route path="/why-choose-us" element={<WhyChooseUsPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </Layout>
+    </BrowserRouter>
   );
 }

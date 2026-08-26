@@ -12,6 +12,12 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  --brand-blue: #123f8c;
+  --brand-deep: #0b2f6b;
+  --brand-orange: #f58220;
+  --brand-light: #f7f9fc;
+  --brand-dark: #172033;
+  --brand-muted: #667085;
 }
 
 html {
@@ -23,6 +29,7 @@ body {
   min-width: 320px;
   min-height: 100vh;
   background: #f7f9fc;
+  color: #172033;
 }
 
 * {
@@ -36,4 +43,10 @@ img {
 
 #root {
   min-height: 100vh;
+}
+
+@layer components {
+  .container-shell {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
 }
