@@ -59,19 +59,27 @@ export default function ContactPage() {
           </div>
         </div>
 
-        <div className="rounded-3xl bg-brand-deep p-8 text-white shadow-soft">
-          <h2 className="text-2xl font-semibold">Find us on Google Maps</h2>
-          <p className="mt-4 text-base leading-7 text-slate-200">
-            Use our official map location to get accurate directions to Twin Trails Travel & Tours Pvt Ltd.
-          </p>
-          <a
-            href={company.googleMaps}
-            target="_blank"
-            rel="noreferrer"
-            className="mt-8 inline-flex rounded-full bg-brand-orange px-6 py-3 font-semibold text-white transition hover:bg-orange-500"
-          >
-            Get Directions
-          </a>
+        <div className="overflow-hidden rounded-3xl bg-white p-3 shadow-soft">
+          <iframe
+            title="Twin Trails Travel & Tours map"
+            src="https://maps.google.com/maps?cid=8293953316450623014&output=embed"
+            width="100%"
+            height="460"
+            style={{ border: 0 }}
+            allowFullScreen=""
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+          />
+          <div className="p-4">
+            <a
+              href={company.googleMaps}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex rounded-full bg-brand-orange px-6 py-3 font-semibold text-white transition hover:bg-orange-500"
+            >
+              Get Directions
+            </a>
+          </div>
         </div>
       </div>
     </div>
