@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Replace REPLACE_WITH_SITE_URL with production domain before deployment. -->
+  <url>
+    <loc>https://REPLACE_WITH_SITE_URL/</loc>
+  </url>
+  <url>
+    <loc>https://REPLACE_WITH_SITE_URL/about</loc>
+  </url>
+  <url>
+    <loc>https://REPLACE_WITH_SITE_URL/services</loc>
+  </url>
+  <url>
+    <loc>https://REPLACE_WITH_SITE_URL/tours</loc>
+  </url>
+  <url>
+    <loc>https://REPLACE_WITH_SITE_URL/flight-ticketing</loc>
+  </url>
+  <url>
+    <loc>https://REPLACE_WITH_SITE_URL/trekking</loc>
+  </url>
+  <url>
+    <loc>https://REPLACE_WITH_SITE_URL/why-choose-us</loc>
+  </url>
+  <url>
+    <loc>https://REPLACE_WITH_SITE_URL/contact</loc>
+  </url>
+</urlset>
