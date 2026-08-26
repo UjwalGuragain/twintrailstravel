@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
 import SeoMeta from './components/SeoMeta';
+import StructuredData from './components/StructuredData';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
 import ServicesPage from './pages/ServicesPage';
@@ -15,6 +16,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <SeoMeta />
+      <StructuredData />
       <Layout>
         <Routes>
           <Route path="/" element={<HomePage />} />
