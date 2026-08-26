@@ -1,3 +1,5 @@
+import PageHero from '../components/PageHero';
+
 export default function WhyChooseUsPage() {
   const features = [
     ['Reliable Service', 'We focus on providing dependable and professional travel services.'],
@@ -10,10 +12,11 @@ export default function WhyChooseUsPage() {
 
   return (
     <div className="container-shell py-16 sm:py-20">
-      <div className="max-w-3xl">
-        <p className="text-sm font-semibold uppercase tracking-[0.28em] text-brand-orange">Why Choose Us</p>
-        <h1 className="mt-6 text-4xl font-bold text-brand-dark sm:text-5xl">Why Choose Twin Trails?</h1>
-      </div>
+      <PageHero
+        eyebrow="Why Choose Us"
+        title="Why Choose Twin Trails?"
+        description="We believe good travel planning should feel professional, personal and straightforward from the very beginning."
+      />
 
       <div className="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
         {features.map(([title, description]) => (
