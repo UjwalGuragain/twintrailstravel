@@ -1,5 +1,7 @@
 import ButtonLink from '../components/ButtonLink';
 import PageHero from '../components/PageHero';
+import RegionCard from '../components/RegionCard';
+import { regions } from '../data/regions';
 
 export default function ToursPage() {
   const categories = [
@@ -30,6 +32,26 @@ export default function ToursPage() {
           </div>
         ))}
       </div>
+
+      <section className="mt-20">
+        <div className="mb-8">
+          <p className="text-sm font-semibold uppercase tracking-[0.28em] text-brand-orange">Popular destinations</p>
+          <h2 className="mt-3 text-3xl font-bold text-brand-dark sm:text-4xl">Explore Nepal by region</h2>
+        </div>
+
+        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+          {regions.map((region) => (
+            <RegionCard
+              key={region.slug}
+              name={region.name}
+              category={region.category}
+              description={region.description}
+              image={region.image}
+              href={`/regions/${region.slug}`}
+            />
+          ))}
+        </div>
+      </section>
     </div>
   );
 }

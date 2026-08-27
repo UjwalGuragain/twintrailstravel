@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { company } from '../data/company';
+import { regions } from '../data/regions';
 
 const routeNames = {
   '/': 'Home',
@@ -19,12 +20,25 @@ export default function StructuredData() {
   useEffect(() => {
     const baseUrl = window.location.origin;
     const pathname = location.pathname || '/';
-    const breadcrumbItems = Object.entries(routeNames).map(([path, name], index) => ({
+    const breadcrumbItems = [...Object.entries(routeNames).map(([path, name], index) => ({
       '@type': 'ListItem',
       position: index + 1,
       name,
       item: `${baseUrl}${path === '/' ? '' : path}`,
-    }));
+    }))];
+
+    if (pathname.startsWith('/regions/')) {
+      const regionSlug = pathname.split('/regions/')[1];
+      const region = regions.find((item) => item.slug === regionSlug);
+      if (region) {
+        breadcrumbItems.push({
+          '@type': 'ListItem',
+          position: breadcrumbItems.length + 1,
+          name: region.name,
+          item: `${baseUrl}${pathname}`,
+        });
+      }
+    }
 
     const data = {
       '@context': 'https://schema.org',

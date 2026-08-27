@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import { regions } from '../data/regions';
 
 const defaultMeta = {
   title: 'Twin Trails Travel & Tours | Nepal Travel, Tours & Flight Ticketing',
@@ -78,11 +79,27 @@ export default function SeoMeta() {
   const location = useLocation();
 
   useEffect(() => {
-    const current = pageMeta[location.pathname] || {
-      title: 'Lost Your Trail? | Twin Trails Travel & Tours',
-      description: 'We could not find the page you were looking for.',
-      robots: 'noindex, nofollow',
-    };
+    let current = pageMeta[location.pathname];
+
+    if (!current && location.pathname.startsWith('/regions/')) {
+      const slug = location.pathname.split('/regions/')[1];
+      const region = regions.find((item) => item.slug === slug);
+      if (region) {
+        current = {
+          title: `${region.name} Travel Guide | Twin Trails Travel & Tours`,
+          description: region.overview,
+          robots: 'index, follow',
+        };
+      }
+    }
+
+    if (!current) {
+      current = {
+        title: 'Lost Your Trail? | Twin Trails Travel & Tours',
+        description: 'We could not find the page you were looking for.',
+        robots: 'noindex, nofollow',
+      };
+    }
 
     const absoluteUrl = `${window.location.origin}${location.pathname}`;
     const ogImage = `${window.location.origin}/assets/twin-trails-logo.png`;

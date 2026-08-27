@@ -152,7 +152,7 @@ export default function HomePage() {
               category={region.category}
               description={region.description}
               image={region.image}
-              href="/tours"
+              href={`/regions/${region.slug}`}
             />
           ))}
         </div>

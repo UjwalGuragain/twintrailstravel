@@ -10,6 +10,7 @@ import FlightTicketingPage from './pages/FlightTicketingPage';
 import TrekkingPage from './pages/TrekkingPage';
 import WhyChooseUsPage from './pages/WhyChooseUsPage';
 import ContactPage from './pages/ContactPage';
+import RegionDetailPage from './pages/RegionDetailPage';
 import NotFoundPage from './pages/NotFoundPage';
 
 export default function App() {
@@ -27,6 +28,7 @@ export default function App() {
           <Route path="/trekking" element={<TrekkingPage />} />
           <Route path="/why-choose-us" element={<WhyChooseUsPage />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/regions/:slug" element={<RegionDetailPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Layout>
