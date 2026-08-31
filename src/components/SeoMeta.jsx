@@ -1,5 +1,7 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import { servicesCatalog } from '../data/services';
+import { tourCategories, packages } from '../data/packages';
 import { regions } from '../data/regions';
 
 const defaultMeta = {
@@ -80,6 +82,42 @@ export default function SeoMeta() {
 
   useEffect(() => {
     let current = pageMeta[location.pathname];
+
+    if (!current && location.pathname.startsWith('/services/')) {
+      const slug = location.pathname.split('/services/')[1];
+      const service = servicesCatalog.find((item) => item.slug === slug);
+      if (service) {
+        current = {
+          title: `${service.title} | Twin Trails Travel & Tours`,
+          description: service.description,
+          robots: 'index, follow',
+        };
+      }
+    }
+
+    if (!current && location.pathname.startsWith('/tours/')) {
+      const slug = location.pathname.split('/tours/')[1];
+      const category = tourCategories.find((item) => item.slug === slug);
+      if (category) {
+        current = {
+          title: `${category.title} | Twin Trails Travel & Tours`,
+          description: category.description,
+          robots: 'index, follow',
+        };
+      }
+    }
+
+    if (!current && location.pathname.startsWith('/packages/')) {
+      const slug = location.pathname.split('/packages/')[1];
+      const pkg = packages.find((item) => item.slug === slug);
+      if (pkg) {
+        current = {
+          title: `${pkg.name} | Twin Trails Travel & Tours`,
+          description: pkg.overview,
+          robots: 'index, follow',
+        };
+      }
+    }
 
     if (!current && location.pathname.startsWith('/regions/')) {
       const slug = location.pathname.split('/regions/')[1];
