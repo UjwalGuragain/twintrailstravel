@@ -26,24 +26,24 @@ const footerServices = [
 ];
 
 const servicesMenu = [
-  { label: 'Flight Ticketing', to: '/flight-ticketing' },
-  { label: 'Tour Packages', to: '/tours' },
-  { label: 'Trekking', to: '/trekking' },
-  { label: 'Nepal Sightseeing', to: '/services' },
-  { label: 'Hotel Booking', to: '/services' },
-  { label: 'Transportation', to: '/services' },
-  { label: 'Customized Travel', to: '/services' },
-  { label: 'International Tours', to: '/tours' },
-  { label: 'Bike Tours', to: '/tours' },
-  { label: 'Mountain Flights', to: '/tours' },
+  { label: 'Flight Ticketing', to: '/services/flight-ticketing' },
+  { label: 'Tour Packages', to: '/services/tour-packages' },
+  { label: 'Trekking', to: '/services/trekking' },
+  { label: 'Nepal Sightseeing', to: '/services/nepal-sightseeing' },
+  { label: 'Hotel Booking', to: '/services/hotel-booking' },
+  { label: 'Transportation', to: '/services/transportation' },
+  { label: 'Customized Travel', to: '/services/customized-travel' },
+  { label: 'International Tours', to: '/services/international-tours' },
+  { label: 'Bike Tours', to: '/services/bike-tours' },
+  { label: 'Mountain Flights', to: '/services/mountain-flights' },
 ];
 
 const toursMenu = [
-  { label: 'Nepal Tours', to: '/tours' },
-  { label: 'Trekking Packages', to: '/tours' },
-  { label: 'International Tours', to: '/tours' },
-  { label: 'Bike Tours', to: '/tours' },
-  { label: 'Customized Packages', to: '/tours' },
+  { label: 'Nepal Tours', to: '/tours/nepal-tours' },
+  { label: 'Trekking Packages', to: '/tours/trekking-packages' },
+  { label: 'International Tours', to: '/tours/international-tours' },
+  { label: 'Bike Tours', to: '/tours/bike-tours' },
+  { label: 'Customized Packages', to: '/tours/customized-packages' },
 ];
 
 const socialIcons = {
@@ -56,6 +56,14 @@ export default function Layout({ children }) {
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openSection, setOpenSection] = useState('');
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 12);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   useEffect(() => {
     setMobileOpen(false);
@@ -66,14 +74,29 @@ export default function Layout({ children }) {
     setOpenSection((current) => (current === section ? '' : section));
   };
 
+  const navLinkClass = ({ isActive }) =>
+    `text-sm font-medium transition-colors ${
+      isActive
+        ? 'text-brand-blue'
+        : 'text-slate-700 hover:text-brand-blue'
+    }`;
+
   return (
     <div className="min-h-screen bg-brand-light text-brand-dark">
-      <header className="sticky top-0 z-50 border-b border-slate-200/80 bg-white/90 backdrop-blur-md">
+      <header
+        className={`sticky top-0 z-50 border-b transition-all duration-300 ${
+          scrolled
+            ? 'border-slate-200/80 bg-white/90 shadow-[0_12px_30px_rgba(15,23,42,0.06)] backdrop-blur-md'
+            : 'border-transparent bg-white/70 backdrop-blur-sm'
+        }`}
+      >
         <div className="container-shell flex items-center justify-between py-4">
           <Link to="/" className="flex items-center gap-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-blue text-xl font-bold text-white shadow-soft">
-              TT
-            </div>
+            <img
+              src="/assets/twin-trails-logo.png"
+              alt="Twin Trails Travel & Tours logo"
+              className="h-12 w-12 rounded-xl object-cover shadow-soft md:h-14 md:w-14"
+            />
             <div>
               <div className="text-sm font-bold uppercase tracking-[0.2em] text-brand-orange">Twin Trails</div>
               <div className="text-xs font-medium text-slate-500">Travel & Tours</div>
@@ -81,14 +104,14 @@ export default function Layout({ children }) {
           </Link>
 
           <nav className="hidden items-center gap-6 lg:flex">
-            <NavLink to="/" className={({ isActive }) => `text-sm font-medium transition-colors ${isActive ? 'text-brand-blue' : 'text-slate-700 hover:text-brand-blue'}`}>Home</NavLink>
-            <NavLink to="/about" className={({ isActive }) => `text-sm font-medium transition-colors ${isActive ? 'text-brand-blue' : 'text-slate-700 hover:text-brand-blue'}`}>About Us</NavLink>
+            <NavLink to="/" className={navLinkClass}>Home</NavLink>
+            <NavLink to="/about" className={navLinkClass}>About Us</NavLink>
 
             <div className="group relative">
               <button type="button" className="inline-flex items-center gap-1 text-sm font-medium text-slate-700 transition-colors hover:text-brand-blue">
                 Our Services <ChevronDown size={15} />
               </button>
-              <div className="invisible absolute left-0 top-full z-30 w-64 rounded-2xl border border-slate-200 bg-white p-2 opacity-0 shadow-soft transition group-hover:visible group-hover:opacity-100">
+              <div className="invisible absolute left-0 top-full z-30 w-64 rounded-2xl border border-slate-200 bg-white p-2 opacity-0 shadow-soft transition duration-200 group-hover:visible group-hover:opacity-100">
                 {servicesMenu.map((item) => (
                   <Link key={item.label} to={item.to} className="block rounded-xl px-3 py-2 text-sm text-slate-700 transition hover:bg-slate-50 hover:text-brand-blue">
                     {item.label}
@@ -101,7 +124,7 @@ export default function Layout({ children }) {
               <button type="button" className="inline-flex items-center gap-1 text-sm font-medium text-slate-700 transition-colors hover:text-brand-blue">
                 Tours & Packages <ChevronDown size={15} />
               </button>
-              <div className="invisible absolute left-0 top-full z-30 w-60 rounded-2xl border border-slate-200 bg-white p-2 opacity-0 shadow-soft transition group-hover:visible group-hover:opacity-100">
+              <div className="invisible absolute left-0 top-full z-30 w-60 rounded-2xl border border-slate-200 bg-white p-2 opacity-0 shadow-soft transition duration-200 group-hover:visible group-hover:opacity-100">
                 {toursMenu.map((item) => (
                   <Link key={item.label} to={item.to} className="block rounded-xl px-3 py-2 text-sm text-slate-700 transition hover:bg-slate-50 hover:text-brand-blue">
                     {item.label}
@@ -110,10 +133,10 @@ export default function Layout({ children }) {
               </div>
             </div>
 
-            <NavLink to="/flight-ticketing" className={({ isActive }) => `text-sm font-medium transition-colors ${isActive ? 'text-brand-blue' : 'text-slate-700 hover:text-brand-blue'}`}>Flight Ticketing</NavLink>
-            <NavLink to="/trekking" className={({ isActive }) => `text-sm font-medium transition-colors ${isActive ? 'text-brand-blue' : 'text-slate-700 hover:text-brand-blue'}`}>Trekking</NavLink>
-            <NavLink to="/why-choose-us" className={({ isActive }) => `text-sm font-medium transition-colors ${isActive ? 'text-brand-blue' : 'text-slate-700 hover:text-brand-blue'}`}>Why Choose Us</NavLink>
-            <NavLink to="/contact" className={({ isActive }) => `text-sm font-medium transition-colors ${isActive ? 'text-brand-blue' : 'text-slate-700 hover:text-brand-blue'}`}>Contact Us</NavLink>
+            <NavLink to="/flight-ticketing" className={navLinkClass}>Flight Ticketing</NavLink>
+            <NavLink to="/trekking" className={navLinkClass}>Trekking</NavLink>
+            <NavLink to="/why-choose-us" className={navLinkClass}>Why Choose Us</NavLink>
+            <NavLink to="/contact" className={navLinkClass}>Contact Us</NavLink>
           </nav>
 
           <div className="hidden items-center gap-3 lg:flex">
@@ -130,7 +153,7 @@ export default function Layout({ children }) {
           <button
             type="button"
             onClick={() => setMobileOpen((open) => !open)}
-            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 lg:hidden"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 shadow-sm lg:hidden"
             aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={mobileOpen}
           >
@@ -228,9 +251,11 @@ export default function Layout({ children }) {
               <li className="flex items-start gap-2">
                 <PhoneCall size={16} className="mt-0.5 text-brand-orange" />
                 <div>
-                  <a href={`tel:${company.phone[0]}`} className="hover:text-white">{company.phone[0]}</a>
+                  <a href={`tel:${company.phone[0]}`} className="hover:text-white">{company.phone[2]}</a>
                   <br />
-                  <a href={`tel:${company.phone[1]}`} className="hover:text-white">{company.phone[1]}</a>
+                  <a href={`tel:${company.phone[1]}`} className="hover:text-white">{company.phone[0]}</a>
+                  <br />
+                  <a href={`tel:${company.phone[2]}`} className="hover:text-white">{company.phone[1]}</a>
                 </div>
               </li>
               <li className="flex items-start gap-2">
