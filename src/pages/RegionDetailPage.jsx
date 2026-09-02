@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { useParams } from 'react-router-dom';
 import ButtonLink from '../components/ButtonLink';
 import PageHero from '../components/PageHero';
@@ -28,7 +29,7 @@ export default function RegionDetailPage() {
 
   return (
     <div className="pb-20">
-      <section className="relative overflow-hidden bg-slate-900">
+      <motion.section initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45 }} className="relative overflow-hidden bg-slate-900">
         <div
           className="absolute inset-0 bg-cover bg-center opacity-70"
           style={{ backgroundImage: `url('${region.image}')` }}
@@ -49,15 +50,15 @@ export default function RegionDetailPage() {
               >
                 Get a Quote
               </ButtonLink>
-              <ButtonLink href={company.googleMaps} external variant="secondary" className="border-white/20 bg-white/10 text-white hover:bg-white/20 hover:text-white">
+              <ButtonLink href={region.mapUrl || company.googleMaps} external variant="secondary" className="border-white/20 bg-white/10 text-white hover:bg-white/20 hover:text-white">
                 View Map
               </ButtonLink>
             </div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
-      <section className="container-shell py-16 sm:py-20">
+      <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.08 }} className="container-shell py-16 sm:py-20">
         <div className="grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
           <div>
             <p className="text-sm font-semibold uppercase tracking-[0.28em] text-brand-orange">Overview</p>
@@ -77,9 +78,23 @@ export default function RegionDetailPage() {
             </ul>
           </div>
         </div>
-      </section>
 
-      <section className="bg-white py-16">
+        <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+          {[
+            { label: 'Altitude', value: region.altitudeRange || 'Varies by route' },
+            { label: 'Difficulty', value: region.difficulty || 'Flexible' },
+            { label: 'Trip length', value: region.duration || 'Flexible' },
+            { label: 'Ideal for', value: region.idealFor || 'Travelers seeking adventure' },
+          ].map((item) => (
+            <div key={item.label} className="rounded-2xl border border-slate-200 bg-white p-5 shadow-soft">
+              <div className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-orange">{item.label}</div>
+              <div className="mt-3 text-base font-semibold text-brand-dark">{item.value}</div>
+            </div>
+          ))}
+        </div>
+      </motion.section>
+
+      <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.12 }} className="bg-white py-16">
         <div className="container-shell">
           <div className="mb-8">
             <p className="text-sm font-semibold uppercase tracking-[0.28em] text-brand-orange">Popular places</p>
@@ -94,9 +109,9 @@ export default function RegionDetailPage() {
             ))}
           </div>
         </div>
-      </section>
+      </motion.section>
 
-      <section className="container-shell py-16">
+      <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.16 }} className="container-shell py-16">
         <div className="mb-8">
           <p className="text-sm font-semibold uppercase tracking-[0.28em] text-brand-orange">Activities</p>
           <h2 className="mt-3 text-3xl font-bold text-brand-dark">Things you can do</h2>
@@ -110,13 +125,17 @@ export default function RegionDetailPage() {
             </div>
           ))}
         </div>
-      </section>
+      </motion.section>
 
-      <section className="bg-brand-light py-16">
+      <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }} className="bg-brand-light py-16">
         <div className="container-shell grid gap-8 lg:grid-cols-2">
           <div className="rounded-3xl border border-slate-200 bg-white p-7 shadow-soft">
             <p className="text-sm font-semibold uppercase tracking-[0.28em] text-brand-orange">Best time to visit</p>
             <p className="mt-4 text-lg leading-8 text-slate-600">{region.bestTime}</p>
+            <div className="mt-8 rounded-2xl bg-brand-light p-5">
+              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-orange">Culture & atmosphere</p>
+              <p className="mt-3 text-base leading-7 text-slate-600">{region.culturalNotes || 'A region rich in local character, mountain culture, and memorable travel moments.'}</p>
+            </div>
           </div>
 
           <div className="rounded-3xl border border-slate-200 bg-white p-7 shadow-soft">
@@ -129,11 +148,15 @@ export default function RegionDetailPage() {
                 </li>
               ))}
             </ul>
+            <div className="mt-7 rounded-2xl bg-brand-light p-5">
+              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-orange">Travel tip</p>
+              <p className="mt-3 text-base leading-7 text-slate-600">{region.travelTips || 'Prepare well, keep your route flexible, and plan according to the weather.'}</p>
+            </div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
-      <section className="container-shell py-16">
+      <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.24 }} className="container-shell py-16">
         <div className="rounded-3xl bg-brand-deep p-8 text-white sm:p-10">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
             <div className="max-w-2xl">
@@ -151,10 +174,10 @@ export default function RegionDetailPage() {
             </div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {otherRegions.length ? (
-        <section className="container-shell pt-4">
+        <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.28 }} className="container-shell pt-4">
           <div className="mb-8">
             <p className="text-sm font-semibold uppercase tracking-[0.28em] text-brand-orange">More destinations</p>
             <h2 className="mt-3 text-3xl font-bold text-brand-dark">Explore more journeys</h2>
@@ -172,7 +195,7 @@ export default function RegionDetailPage() {
               />
             ))}
           </div>
-        </section>
+        </motion.section>
       ) : null}
     </div>
   );
